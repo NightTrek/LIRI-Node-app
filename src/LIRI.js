@@ -2,6 +2,7 @@ require("dotenv").config();
 var keys = require("./keys.js");
 var axios = require("axios")
 var E = require('enquirer')
+const rp = require('request-promise');
 
 
 // var spotify = new Spotify(keys.spotify);
@@ -22,8 +23,8 @@ var InputHandler = function (CommandArray) {
     }
 
     switch (CommandArray[0].toLowerCase()) {
-        case "concert-this":
-            getConcertData(CommandArray[1]);
+        case "cmclatest":
+            coinMarketCapPrice(CommandArray[1]);
             break;
         case "spotify-this-song":
             getSpotifySong(CommandArray[1]);
@@ -39,9 +40,40 @@ var InputHandler = function (CommandArray) {
 }
 
 
-var getConcertData = function () {
-    console.log("concert")
+var coinMarketCapPrice = async function (str) {
+    console.log("cmclatest")
+    try {//0883f3bc-2427-4ffa-8f8b-94f8fad9dbae
+        const requestOptions = {
+            method: 'GET',
+            uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+            qs: {
+              'start': '1',
+              'limit': '100',
+              'convert': 'USD'
+            },
+            headers: {
+              'X-CMC_PRO_API_KEY': '0883f3bc-2427-4ffa-8f8b-94f8fad9dbae'
+            },
+            json: true,
+            gzip: true
+          };
+          
+          const response = await rp(requestOptions)
+          console.log(response.data);
+          for(key in response.data){
+              console.log(key)
+          }
 
+
+        
+    }
+    catch (error) {
+        console.log('-------------------------------------------------------------')
+        console.log(error)
+        console.log('-------------------------------------------------------------')
+
+
+    }
 }
 
 var getSpotifySong = function () {
@@ -93,5 +125,4 @@ var doWhatItSays = function () {
 InputHandler(input);
 // * `concert-this`
 // * `spotify-this-song`
-// * `movie-this`
 // * `do-what-it-says`
