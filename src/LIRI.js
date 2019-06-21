@@ -3,6 +3,8 @@ const spotify = require("./keys.js");
 const axios = require("axios")
 const E = require('enquirer')
 const rp = require('request-promise');
+var Spotify = require('node-spotify-api');
+
 
 
 // var spotify = new Spotify(keys.spotify);
@@ -157,11 +159,16 @@ var printCMCData = function (CMCDATA, str) {
 var getSpotifySong = async function (str) {
     console.log("spotify")
     try {
-        let response = await axios.get(`"https://api.spotify.com/v1/search?q=${str.trim().split(' ').join("%20")}&type=track&market=US"
-         -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer BQArvqQqNL6aI91wrIMy1qUFv070bwN0wREC
-         JhrcbeTdp8w4RBpIZ7czYvugQt-EAax79Dbv4dsaaaE0bveKRXh08WHWM-_0aBaHPERmsffh6BhJRBxZmDUF-7FFX8mjNartnxzXA35SeZYZFHOSUmgavnyBjioHzw"`)
+        const resposnse = await spotify.search({ type: 'track', query: str, limit: 1 })
+        // console.log(JSON.stringify(resposnse))
+        console.log("-------------------------------------------------")
+        console.log(resposnse.tracks.items[0].name)
+        console.log(resposnse.tracks.items[0].artists)
+        console.log(resposnse.tracks.items[0].album)
+        console.log(resposnse.tracks.items[0].previewURL)
+        // console.log(resposnse.tracks.items[0].previewURL)
+        console.log("-------------------------------------------------")
 
-        console.log(response)
     }
     catch (error) {
         console.log('-------------------------------------------------------------')
@@ -212,7 +219,7 @@ var getOMDBMovie = async function (str) {
 var doWhatItSays = function () {
     console.log("im the dom")
     try {
-        
+
 
     } catch (err) {
         console.log(err)
