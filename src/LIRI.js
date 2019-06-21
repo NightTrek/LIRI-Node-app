@@ -1,7 +1,7 @@
 require("dotenv").config();
-var keys = require("./keys.js");
-var axios = require("axios")
-var E = require('enquirer')
+const spotify = require("./keys.js");
+const axios = require("axios")
+const E = require('enquirer')
 const rp = require('request-promise');
 
 
@@ -81,7 +81,7 @@ var enquireRepeat = async function () {
 }
 
 //working need to change it so that it can be called by enquire multiple times 
-var coinMarketCapPrice = async function (str) {
+var coinMarketCapPrice = async function (str, convert = "USD") {
     if (typeof str == "string") {
         console.log("cmclatest")
         try {//0883f3bc-2427-4ffa-8f8b-94f8fad9dbae
@@ -90,8 +90,8 @@ var coinMarketCapPrice = async function (str) {
                 uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
                 qs: {
                     'start': '1',
-                    'limit': '100',
-                    'convert': 'USD'
+                    'limit': '200',
+                    'convert': convert
                 },
                 headers: {
                     'X-CMC_PRO_API_KEY': '0883f3bc-2427-4ffa-8f8b-94f8fad9dbae'
@@ -154,8 +154,22 @@ var printCMCData = function (CMCDATA, str) {
     } console.log("Symbol Not found in first 200 coins by market cap")
 }
 
-var getSpotifySong = function () {
+var getSpotifySong = async function (str) {
     console.log("spotify")
+    try {
+        let response = await axios.get(`"https://api.spotify.com/v1/search?q=${str.trim().split(' ').join("%20")}&type=track&market=US"
+         -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer BQArvqQqNL6aI91wrIMy1qUFv070bwN0wREC
+         JhrcbeTdp8w4RBpIZ7czYvugQt-EAax79Dbv4dsaaaE0bveKRXh08WHWM-_0aBaHPERmsffh6BhJRBxZmDUF-7FFX8mjNartnxzXA35SeZYZFHOSUmgavnyBjioHzw"`)
+
+        console.log(response)
+    }
+    catch (error) {
+        console.log('-------------------------------------------------------------')
+        console.log(error)
+        console.log('-------------------------------------------------------------')
+
+
+    }
 
 }
 
@@ -197,6 +211,12 @@ var getOMDBMovie = async function (str) {
 
 var doWhatItSays = function () {
     console.log("im the dom")
+    try {
+        
+
+    } catch (err) {
+        console.log(err)
+    }
 
 }
 
