@@ -43,7 +43,8 @@ which uses one of Four input strings. After inputing the comand you want to use 
   4.Command: "do-what-it-says"
   
   
-    Takes one Argument File name" Default is "CommandList.txt" but you can specify any CSV formated file.
+    Takes one Argument File name" Default is "CommandList.json" but you can specify any json formated file.
+    make sure each command array contains a "command" key and an "options" key. also make sure each comand and key pair is in     array of objects
     Returns: Runs each command string listed in the file and returns the result. any number of commands
     
     
