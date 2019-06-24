@@ -18,16 +18,31 @@ The LIRI BOT is a Request baded tool which uses enquirer to ask for user input a
 CommandList.JSON to list and run comands you want to use. The LIRI bot also Uses Enquirer to loop the program allowing for the 
 user to continue using the Data recived from the API's without making extra calls. The primary event handler is a switch statment
 which uses one of Four input strings. After inputing the comand you want to use you can than put in an argument as outlined below.
+
   1.Command: "cmclatest"
+  
+  
       Takes One Argument: SYMBOL for the cryptoCurreny you want data on. example "BTC" "ETH" "XRP"
        Returns: Current Price Volume and market Cap of the crypto.
+       
+       
   2.Command: "spotify-this-song"
+  
+  
       Takes one argument: Track name: Example "Seven Nation Army" "Bad Romance"
       Returns: Song info like name and a link to the preview which you can open on your spotify player.
+      
+      
   3.Command: "movie-this"
+  
+  
       Takes One argument. Movie title: example "the matrix" "ex machina"
       Returns: Info about the movie including rating plot and title.
+      
+      
   4.Command: "do-what-it-says"
+  
+  
     Takes one Argument File name" Default is "CommandList.txt" but you can specify any CSV formated file.
     Returns: Runs each command string listed in the file and returns the result. any number of commands
     
