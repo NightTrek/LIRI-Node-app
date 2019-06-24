@@ -163,10 +163,10 @@ var getSpotifySong = async function (str) {
         // console.log(JSON.stringify(resposnse))
         console.log("-------------------------------------------------")
         console.log(resposnse.tracks.items[0].name)
-        console.log(resposnse.tracks.items[0].artists)
-        console.log(resposnse.tracks.items[0].album)
-        console.log(resposnse.tracks.items[0].previewURL)
-        // console.log(resposnse.tracks.items[0].previewURL)
+        console.log(resposnse.tracks.items[0].artists[0].name)
+        console.log(resposnse.tracks.items[0].album.name)
+        console.log(resposnse.tracks.items[0].preview_url)
+        // console.log(resposnse.tracks.items[0])
         console.log("-------------------------------------------------")
 
     }
