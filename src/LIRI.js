@@ -3,7 +3,8 @@ const spotify = require("./keys.js");
 const axios = require("axios")
 const E = require('enquirer')
 const rp = require('request-promise');
-var Spotify = require('node-spotify-api');
+const fs = require('fs')
+// var Spotify = require('node-spotify-api');
 
 
 
@@ -11,10 +12,11 @@ var Spotify = require('node-spotify-api');
 // console.log(spotify)
 
 var input = process.argv.splice(2);
-console.log(input)
+// console.log(input)
 var CMCResponse;
+var repeateLister = 0;
 
-var InputHandler = function (CommandArray) {
+var InputHandler = async function (CommandArray) {
     switch (CommandArray[`command`].toLowerCase()) {
         case "cmclatest":
             if (CMCResponse === undefined) {
@@ -36,7 +38,10 @@ var InputHandler = function (CommandArray) {
             break;
 
     }
+    if(repeateLister <1){
     enquireRepeat();
+}
+repeateLister++;
     // printCMCData(CMCResponse, CommandArray['options'])
 }
 
@@ -73,6 +78,7 @@ var enquireRepeat = async function () {
         ])// end of await
     console.log(response);
     if (response.confirm == true) {
+        repeateLister--;
         enquireInputHandler();
     }
     else {
@@ -82,7 +88,7 @@ var enquireRepeat = async function () {
 
 }
 
-//working need to change it so that it can be called by enquire multiple times 
+//working 
 var coinMarketCapPrice = async function (str, convert = "USD") {
     if (typeof str == "string") {
         console.log("cmclatest")
@@ -103,6 +109,7 @@ var coinMarketCapPrice = async function (str, convert = "USD") {
             };
 
             const response = await rp(requestOptions)
+
             for (let i = 0; i < response.data.length; i++) {
                 //   console.log(response.data[i].symbol)
                 if (response.data[i].symbol == str.trim().toUpperCase()) {
@@ -137,8 +144,9 @@ var coinMarketCapPrice = async function (str, convert = "USD") {
     }
 }
 
-var printCMCData = function (CMCDATA, str) {
-    console.log(CMCDATA)
+//working
+var printCMCData = async function (PromiseData, str) {
+    const CMCDATA = await PromiseData;
     for (let i = 0; i < CMCDATA.length; i++) {
         // console.log(CMCDATA[i].symbol);
         if (CMCDATA[i].symbol == str.trim().toUpperCase()) {
@@ -156,6 +164,7 @@ var printCMCData = function (CMCDATA, str) {
     } console.log("Symbol Not found in first 200 coins by market cap")
 }
 
+//working
 var getSpotifySong = async function (str) {
     console.log("spotify")
     try {
@@ -172,6 +181,7 @@ var getSpotifySong = async function (str) {
     }
     catch (error) {
         console.log('-------------------------------------------------------------')
+        console.log("an ERROR OCCURED WITH SPOTIFY")
         console.log(error)
         console.log('-------------------------------------------------------------')
 
@@ -190,6 +200,7 @@ var getOMDBMovie = async function (str) {
             console.log("movie not found")
         }
         else {
+            console.log('-------------------------------------------------')
             console.log(`Title: ${response.data.Title}`);
             console.log(`Came Out: ${response.data.Released}`);
             console.log(`Rated: ${response.data.Rated}`);
@@ -201,6 +212,8 @@ var getOMDBMovie = async function (str) {
             console.log(`Plot: ${response.data.Plot}`);
             console.log(`Actors: ${response.data.Actors}`);
         }
+        console.log('-------------------------------------------------')
+
     }
     catch (error) {
         console.log('-------------------------------------------------------------')
@@ -215,11 +228,16 @@ var getOMDBMovie = async function (str) {
 
 
 
-
-var doWhatItSays = function () {
-    console.log("im the dom")
+//Perferably a JSON file named commandList.json in the LIRI-homework Directory
+var doWhatItSays = function (path) {
+    console.log("running commands")
     try {
-
+        const listOfComands =  fs.readFileSync(`../${path}`,{encoding:"UTF-8"});
+        let commandArray = JSON.parse(listOfComands).array
+        for(let i = 0; i<commandArray.length;i++){
+            console.log("--------------------------------------------------------------")
+            InputHandler(commandArray[i]);
+        }
 
     } catch (err) {
         console.log(err)

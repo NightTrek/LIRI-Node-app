@@ -1,0 +1,8 @@
+{
+    "array": [{"command":"movie-this", "options":"The Matrix"},
+        {"command":"movie-this", "options":"District 9"},
+        {"command":"spotify-this-song", "options":"Seven Nation Army"},
+        {"command":"CMClatest", "options":"BTC"},
+        {"command":"CMClatest", "options":"ETH"}
+    ]
+}
